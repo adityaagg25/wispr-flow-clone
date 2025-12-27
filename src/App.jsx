@@ -34,9 +34,12 @@ function App() {
   };
 
   const startRecording = async () => {
-    try {
-      const stream = await requestMicrophone();
+    if (isRecording) return;
 
+    try {
+      setPartialTranscript(""); // reset partial for new session
+
+      const stream = await requestMicrophone();
       connectDeepgram(handleTranscript);
 
       startAudioCapture(stream, (audioChunk) => {
@@ -51,6 +54,8 @@ function App() {
   };
 
   const stopRecording = () => {
+    if (!isRecording) return;
+
     stopAudioCapture();
     setWaitingForFinal(true);
     setIsRecording(false);

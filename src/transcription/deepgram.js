@@ -1,6 +1,12 @@
 let socket = null;
 
 export function connectDeepgram(onTranscript) {
+  // Close existing socket if any
+  if (socket) {
+    socket.close();
+    socket = null;
+  }
+
   socket = new WebSocket(
     "wss://api.deepgram.com/v1/listen" +
       "?model=nova-2" +
@@ -8,7 +14,7 @@ export function connectDeepgram(onTranscript) {
       "&encoding=linear16" +
       "&sample_rate=16000" +
       "&interim_results=true" +
-      "&endpointing=300" +
+      "&endpointing=1000" +
       "&punctuate=true" +
       "&smart_format=true",
     ["token", import.meta.env.VITE_DEEPGRAM_API_KEY]
@@ -45,7 +51,7 @@ export function sendAudioToDeepgram(audioBuffer) {
 }
 
 export function closeDeepgram() {
-  if (socket && socket.readyState === WebSocket.OPEN) {
+  if (socket) {
     socket.close();
     socket = null;
   }

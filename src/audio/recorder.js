@@ -17,16 +17,16 @@ export async function requestMicrophone() {
 }
 
 export function startAudioCapture(stream, onAudioChunk) {
-  audioContext = new AudioContext({ sampleRate: 16000 });
+  if (audioContext) return; // prevent double start
 
+  audioContext = new AudioContext({ sampleRate: 16000 });
   source = audioContext.createMediaStreamSource(stream);
   processor = audioContext.createScriptProcessor(2048, 1, 1);
 
   processor.onaudioprocess = (event) => {
     const input = event.inputBuffer.getChannelData(0);
-
-    // Convert Float32 → Int16 PCM
     const pcm16 = new Int16Array(input.length);
+
     for (let i = 0; i < input.length; i++) {
       pcm16[i] = Math.max(-1, Math.min(1, input[i])) * 32767;
     }
@@ -41,6 +41,9 @@ export function startAudioCapture(stream, onAudioChunk) {
 export function stopAudioCapture() {
   processor?.disconnect();
   source?.disconnect();
+
+  processor = null;
+  source = null;
 
   audioContext?.close();
   audioContext = null;
