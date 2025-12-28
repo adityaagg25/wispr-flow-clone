@@ -14,7 +14,7 @@ export function connectDeepgram(onTranscript) {
       "&encoding=linear16" +
       "&sample_rate=16000" +
       "&interim_results=true" +
-      "&endpointing=1000" +
+      "&endpointing=2000" +
       "&punctuate=true" +
       "&smart_format=true",
     ["token", import.meta.env.VITE_DEEPGRAM_API_KEY]

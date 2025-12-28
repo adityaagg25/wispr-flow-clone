@@ -1,0 +1,16 @@
+:root {
+  --bg-gradient: radial-gradient(
+      circle at top,
+      #1a1a1a,
+      #0f0f0f 60%
+  );
+
+  --glass-bg: rgba(255, 255, 255, 0.08);
+  --glass-border: rgba(255, 255, 255, 0.15);
+
+  --text-main: #ffffff;
+  --text-muted: #b5b5b5;
+
+  --accent: #5b9dff;
+  --danger: #ff4d4d;
+}
