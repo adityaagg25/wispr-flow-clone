@@ -179,7 +179,7 @@ function App() {
       </main>
 
       <footer className="app-footer">
-        <p>Flow to create with voice</p>
+        <p>Developed by ©Aditya Aggarwal</p>
       </footer>
     </div>
   );
