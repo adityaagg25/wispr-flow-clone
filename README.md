@@ -205,5 +205,5 @@ These limitations are intentional to keep the project focused and lightweight.
 
 ### Main Application Interface
 
-![FlowType Studio UI]()
+![FlowType Studio UI](./ui_screenshot/ui.png)
 
