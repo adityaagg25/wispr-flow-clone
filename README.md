@@ -1,207 +1,209 @@
-🎙️ Wispr Flow Clone — Voice to Text Desktop App
+# 🎙️ FlowType Studio — Voice-to-Text Desktop App
 
-A lightweight push-to-talk voice-to-text desktop application inspired by Wispr Flow, built using Tauri, React, and Deepgram for real-time speech transcription.
-
-📌 Project Overview
-
-This project demonstrates how to build a real-time speech-to-text desktop application with:
-
-Live microphone audio capture
-
-Real-time streaming transcription
-
-Push-to-talk interaction model
-
-Clean separation of concerns
-
-The focus of this project is functionality, real-time streaming, and architecture, not UI polish.
-
-🧱 Tech Stack
-
-Frontend: React (Vite)
-
-Desktop Framework: Tauri
-
-Speech-to-Text: Deepgram Real-Time API (WebSocket)
-
-Language: JavaScript
-
-Audio Processing: Web Audio API (PCM 16-bit)
-
-✨ Features
-
-🎙 Push-to-Talk Recording
-
-📝 Live Partial Transcription
-
-✅ Finalized Accurate Transcription
-
-🔁 Real-Time Audio Streaming
-
-🧼 Clean start/stop lifecycle
-
-🧠 Handles real-world streaming edge cases
-
-🏗️ Architecture Overview
-UI (React)
-  ├─ Push-to-Talk Button
-  ├─ Transcript Display
-  ↓
-Audio Layer
-  ├─ Microphone Access
-  ├─ PCM Audio Conversion (16-bit, 16kHz)
-  ↓
-Streaming Layer
-  ├─ WebSocket Audio Streaming
-  ↓
-Deepgram API
-  ├─ Partial Transcripts
-  ├─ Final Transcripts
-  ↓
-UI Update
+FlowType Studio is a lightweight, push-to-talk voice-to-text desktop application inspired by Wispr Flow.
+It focuses on real-time dictation, clean UX, and clear separation of concerns, built using modern web and desktop technologies.
 
 
-Each layer has one clear responsibility, making the codebase easy to reason about and extend.
+## 📌 Project Overview
+To demonstrate the ability to:
+- Capture live microphone audio
+- Stream audio in real time
+- Transcribe speech with low latency
+- Build a practical, user-focused desktop experience
 
-📁 Project Structure
+FlowType Studio enables users to hold a microphone button, speak naturally, and see their words appear instantly on screen.
+The transcribed text can then be inserted into a target writing area, simulating real-world dictation workflows.
+
+### This project prioritizes:
+- Functionality over visual polish
+- Clear architecture over complex abstractions
+- Real-time interaction over batch processing
+
+It is intentionally kept minimal, readable, and extensible.
+
+---
+
+## ✨ Key Features
+- 🎤 Push-to-Talk Voice Input
+  - Hold the microphone button to start speaking; release to stop.
+
+- ⚡ Real-Time Transcription
+  - Live partial transcription with finalized, accurate results.
+
+- 📝 Insert Text Workflow
+  - Transcribed text can be inserted into a writing surface inside the app.
+
+- 📋 Clipboard Support
+  - Easily copy transcribed text for use in other applications.
+
+- 🖥️ Cross-Platform Desktop App
+  - Runs on Windows, macOS, and Linux using Tauri.
+  
+---
+
+## 🧠 How It Works (High Level)
+1. User presses and holds the microphone button.
+2. Microphone audio is captured using the Web Audio API.
+3. Audio is streamed in real time to Deepgram via WebSocket.
+4. Partial and final transcripts are received live.
+5. Final text can be inserted into the target writing area or copied.
+
+---
+
+## 🧰 Tech Stack
+
+### Frontend
+- React (Vite)
+- JavaScript
+- CSS (custom, no UI libraries)
+
+### Desktop Framework
+- Tauri (lightweight, native desktop runtime)
+
+### Speech-to-Text
+- Deepgram Real-Time API (WebSocket)
+
+### Audio Processing
+- Web Audio API
+- 16-bit PCM audio streaming
+
+---
+
+## 🧱 Architecture & Design Decisions
+
+FlowType Studio is designed with a clear separation of concerns to ensure maintainability and clarity.
+
+### Audio Capture
+- Microphone access and audio capture are handled in `audio/recorder.js`
+- Uses the Web Audio API to stream 16-bit PCM audio
+- Audio lifecycle (start/stop) is tightly controlled to avoid leaks
+
+### Transcription
+- Speech-to-text is implemented via Deepgram’s real-time WebSocket API
+- Partial transcripts are displayed live
+- Final transcripts are committed only when confirmed by the API to avoid duplication or truncation
+
+### UI Layer
+- UI is built using React with minimal abstraction
+- Push-to-talk behavior is isolated in `PushToTalk.jsx`
+- Layout is fullscreen and canvas-based, inspired by modern dictation tools
+- No external UI libraries are used to keep the implementation transparent
+
+### Desktop Runtime
+- Tauri is used instead of Electron for a lightweight native desktop experience
+- Keeps memory usage low while maintaining native performance
+
+---
+
+## 📁 Project Structure
+```
 src/
- ├─ audio/
- │   └─ recorder.js        # Microphone & audio processing
- ├─ transcription/
- │   └─ deepgram.js        # Deepgram WebSocket logic
- ├─ ui/
- │   └─ PushToTalk.jsx     # Push-to-Talk button
- ├─ App.jsx                # Application state & orchestration
- └─ main.jsx
+├── audio/
+│   └── recorder.js        # Microphone access & audio capture
+├── transcription/
+│   └── deepgram.js        # Deepgram WebSocket integration
+├── ui/
+│   └── PushToTalk.jsx     # Push-to-talk microphone component
+├── App.jsx                # Main application logic & layout
+├── App.css                # Global styles and layout
+├── main.jsx               # App entry point
+```
 
-⚙️ Setup Instructions
-1️⃣ Clone the Repository
-git clone https://github.com/your-username/wispr-flow-clone.git
-cd wispr-flow-clone
+---
 
-2️⃣ Install Dependencies
+## 🛠️ Setup & Installation
+
+### Prerequisites
+
+Ensure the following are installed on your system:
+
+- Node.js (v18 or later recommended)
+- npm
+- Rust (required for Tauri)
+- Tauri OS prerequisites  
+  https://tauri.app/start/prerequisites/
+
+> **Note:** VS Code alone is not sufficient — system build tools must be installed.
+
+---
+
+1. ### Clone the Repository
+
+```bash
+git clone https://github.com/your-username/flowtype-studio.git
+cd flowtype-studio
+```
+
+2. ### Install Dependencies
+```bash
 npm install
+```
 
-3️⃣ Add Deepgram API Key
-
-Create a .env file in the project root:
-
+3. ### Configure Environment Variables
+Create a .env file in the project root directory:
+```env
 VITE_DEEPGRAM_API_KEY=your_deepgram_api_key_here
+```
+You can generate an API key from:
+https://console.deepgram.com/
 
+> **Note:**⚠️ Never commit your .env file to version control.
 
-⚠️ The .env file is ignored by Git to keep credentials secure.
-
-4️⃣ Run the App (Desktop)
+4. ### Running the Application (Development)
+```bash
 npm run tauri dev
+```
+This will:
+- Start the Vite development server
+- Launch the Tauri desktop application
+- Enable live reload during development
 
-🎬 How It Works (User Flow)
+---
 
-Launch the desktop app
+## 📘 Usage Guide
 
-Hold the “Hold to Talk” button
+1. Launch the application.
+2. Press and hold the microphone button at the bottom of the screen.
+3. Speak naturally while holding the button.
+4. Live transcription will appear on the screen as you speak.
+5. Release the microphone button to stop recording.
+6. Once transcription appears:
+   - Click **Insert** to insert the text into the writing surface.
+   - Click **Copy** to copy the text to your clipboard.
+7. Edit or continue dictating as needed.
 
-Speak into the microphone
+---
 
-See live transcription while speaking
+## ⚠️ Known Limitations
 
-Release the button
+- Transcription accuracy depends on:
+  - Microphone quality
+  - Background noise
+  - Internet connection
+- Currently supports **English language only**.
+- No offline transcription support.
+- Limited to short sentences.
 
-The final sentence completes automatically
+These limitations are intentional to keep the project focused and lightweight.
 
-🧠 Important Design Decisions
-✅ Partial vs Final Transcripts
+---
 
-Deepgram sends:
+## 🚀 Future Improvements
 
-Partial transcripts (fast, changing)
+- Language selection support
+- Larger audio inputs
+- Keyboard shortcut for push-to-talk (e.g. Spacebar)
+- Cursor-aware text insertion
+- Transcription history panel
+- Optional auto-insert mode
+- Dark / light theme toggle
+- Word-by-word animation or subtle waveform visualization
+- Global clipboard / system-level dictation support
 
-Final transcripts (confirmed)
 
-To avoid duplication:
+## 🖼️ Screenshots
 
-Partial transcripts are shown live
+### Main Application Interface
 
-Only final transcripts are permanently appended
-
-✅ Stream Finalization Handling
-
-A key challenge in real-time speech systems is sentence cut-off.
-
-Solution used:
-
-The microphone stops immediately on button release
-
-The WebSocket remains open
-
-The app waits for Deepgram’s is_final: true event
-
-Only then is the stream closed
-
-This ensures no words are lost, even at the end of speech.
-
-⚠️ Known Limitations
-
-Accuracy depends on microphone quality and environment noise
-
-No speaker diarization
-
-English language only (can be extended)
-
-UI is intentionally minimal
-
-🚀 Possible Improvements
-
-Add language selection
-
-Add copy / clear transcript buttons
-
-Add keyboard shortcut for push-to-talk
-
-Add transcript export
-
-Improve UI styling
-
-🎥 Demo Video
-
-The demo video shows:
-
-App launch
-
-Push-to-talk recording
-
-Live transcription
-
-Clean final sentence on release
-
-🧾 Assumptions
-
-User has a working microphone
-
-Stable internet connection
-
-Deepgram API key with real-time access
-
-📚 References
-
-Deepgram Real-Time API Documentation
-
-Tauri Documentation
-
-Web Audio API (MDN)
-
-👤 Author
-
-Aditya Aggarwal
-Built as a practical demonstration of real-time streaming, desktop app architecture, and API integration.
-
-✅ Final Note for Evaluators
-
-This project prioritizes:
-
-Real-time streaming correctness
-
-Clean lifecycle management
-
-Clear architectural separation
-
+![FlowType Studio UI]()
 
